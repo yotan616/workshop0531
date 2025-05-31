@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BillFlow - 請求管理をもっとシンプルに</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            background: white;
+            color: #0ea5e9;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #0ea5e9;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid white;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #0ea5e9;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .benefits-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .benefits-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .benefits-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .benefits-list li::before {
+            content: "✓";
+            background: #0ea5e9;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .benefits-image {
+            text-align: center;
+        }
+
+        .benefits-image img {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 80px 0;
+            background: #f8fafc;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #0ea5e9;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: "人気";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0ea5e9;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #0ea5e9;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-period {
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: #64748b;
+        }
+
+        .pricing-button {
+            background: #0ea5e9;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .pricing-button:hover {
+            background: #0284c7;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .testimonial-company {
+            color: #0ea5e9;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #0ea5e9;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .benefits-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .features,
+            .benefits,
+            .pricing,
+            .testimonials,
+            .cta-section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">BillFlow</div>
+            <ul class="nav-links">
+                <li><a href="#features">機能</a></li>
+                <li><a href="#pricing">料金</a></li>
+                <li><a href="#testimonials">お客様の声</a></li>
+                <li><a href="#contact">お問い合わせ</a></li>
+            </ul>
+            <a href="#" class="cta-button">無料トライアル</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>請求管理をもっとシンプルに</h1>
+            <p>BillFlowで請求書作成から入金管理まで、すべてを一元化。<br>業務効率を劇的に向上させましょう。</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">無料で始める</a>
+                <a href="#" class="btn-secondary">デモを見る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">BillFlowの主要機能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>簡単請求書作成</h3>
+                    <p>テンプレートを使って素早く綺麗な請求書を作成。カスタマイズも自由自在です。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>入金管理</h3>
+                    <p>入金状況をリアルタイムで把握。未入金の自動リマインド機能で回収率向上。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>売上分析</h3>
+                    <p>詳細なレポートとダッシュボードで売上動向を可視化。経営判断をサポート。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>定期請求</h3>
+                    <p>サブスクリプションビジネスに最適。自動で定期請求書を生成・送信。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>モバイル対応</h3>
+                    <p>スマートフォンやタブレットからも快適に操作。外出先でも業務継続。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>セキュリティ</h3>
+                    <p>銀行レベルの暗号化でデータを保護。安心してご利用いただけます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <div class="benefits-content">
+                <div class="benefits-text">
+                    <h2>なぜBillFlowを選ぶのか？</h2>
+                    <p>従来の請求管理の課題を解決し、ビジネスの成長を加速させます。</p>
+                    <ul class="benefits-list">
+                        <li>請求書作成時間を90%短縮</li>
+                        <li>入金管理の自動化で人的ミスを削減</li>
+                        <li>リアルタイム分析で迅速な意思決定</li>
+                        <li>クラウドベースでどこからでもアクセス</li>
+                        <li>既存システムとの連携が簡単</li>
+                    </ul>
+                    <a href="#" class="btn-primary" style="color: white; background: #0ea5e9;">詳細を見る</a>
+                </div>
+                <div class="benefits-image">
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="ビジネス分析" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">シンプルな料金プラン</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>スターター</h3>
+                    <div class="price">¥0</div>
+                    <div class="price-period">月額 / 永久無料</div>
+                    <ul class="pricing-features">
+                        <li>月10件まで請求書作成</li>
+                        <li>基本的な入金管理</li>
+                        <li>メールサポート</li>
+                        <li>モバイルアプリ</li>
+                    </ul>
+                    <a href="#" class="pricing-button">今すぐ始める</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>プロフェッショナル</h3>
+                    <div class="price">¥2,980</div>
+                    <div class="price-period">月額</div>
+                    <ul class="pricing-features">
+                        <li>無制限の請求書作成</li>
+                        <li>高度な入金管理</li>
+                        <li>売上分析レポート</li>
+                        <li>定期請求機能</li>
+                        <li>優先サポート</li>
+                    </ul>
+                    <a href="#" class="pricing-button">14日間無料トライアル</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>エンタープライズ</h3>
+                    <div class="price">¥9,800</div>
+                    <div class="price-period">月額</div>
+                    <ul class="pricing-features">
+                        <li>すべての機能</li>
+                        <li>カスタム統合</li>
+                        <li>専任サポート</li>
+                        <li>オンサイト研修</li>
+                        <li>SLA保証</li>
+                    </ul>
+                    <a href="#" class="pricing-button">お問い合わせ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">お客様の声</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "BillFlowを導入してから請求業務が劇的に効率化されました。特に自動リマインド機能が素晴らしく、入金率が20%向上しました。"
+                    </div>
+                    <div class="testimonial-author">田中 太郎</div>
+                    <div class="testimonial-company">株式会社ABC商事 代表取締役</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "直感的なUIで誰でも簡単に使えます。請求書のデザインもプロフェッショナルで、お客様からの評判も上々です。"
+                    </div>
+                    <div class="testimonial-author">佐藤 花子</div>
+                    <div class="testimonial-company">デザインスタジオXYZ 経理担当</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "売上分析機能が非常に詳細で、経営判断に大いに役立っています。コストパフォーマンスも抜群です。"
+                    </div>
+                    <div class="testimonial-author">山田 次郎</div>
+                    <div class="testimonial-company">ITコンサルティング123 CEO</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>今すぐBillFlowを始めましょう</h2>
+            <p>14日間の無料トライアルで、すべての機能をお試しいただけます。<br>クレジットカード不要、いつでもキャンセル可能。</p>
+            <a href="#" class="btn-primary">無料トライアルを開始</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BillFlow</h3>
+                    <p>請求管理をもっとシンプルに。<br>ビジネスの成長を支援します。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>製品</h3>
+                    <ul>
+                        <li><a href="#">機能一覧</a></li>
+                        <li><a href="#">料金プラン</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">統合</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>サポート</h3>
+                    <ul>
+                        <li><a href="#">ヘルプセンター</a></li>
+                        <li><a href="#">お問い合わせ</a></li>
+                        <li><a href="#">システム状況</a></li>
+                        <li><a href="#">セキュリティ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>会社情報</h3>
+                    <ul>
+                        <li><a href="#">会社概要</a></li>
+                        <li><a href="#">採用情報</a></li>
+                        <li><a href="#">プレスリリース</a></li>
+                        <li><a href="#">プライバシーポリシー</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BillFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
